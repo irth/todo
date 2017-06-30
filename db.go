@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/mattn/go-sqlite3"
@@ -70,5 +71,15 @@ func (d *DB) markTodoAsDone(id int, done bool) (*Todo, error) {
 		return nil, err
 	}
 	_, err = d.database.Exec("UPDATE todos SET done = ? WHERE id = ?", done, todo.ID)
+	return &todo, err
+}
+
+func (d *DB) setDate(id int, time time.Time) (*Todo, error) {
+	todo := Todo{}
+	err := d.database.Get(&todo, "SELECT * FROM todos WHERE id = ?", id)
+	if err != nil {
+		return nil, err
+	}
+	_, err = d.database.Exec("UPDATE todos SET date = ? WHERE id = ?", time, todo.ID)
 	return &todo, err
 }

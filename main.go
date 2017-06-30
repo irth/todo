@@ -16,6 +16,7 @@ func main() {
 		commandAdd,
 		commandDone,
 		commandList,
+		commandSchedule,
 	}
 	app.Run(os.Args)
 }

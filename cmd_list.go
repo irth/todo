@@ -11,7 +11,7 @@ import (
 
 func getPrintableDate(d *time.Time) string {
 	if d != nil {
-		return d.String()
+		return d.Format("2006-01-02 15:04")
 	}
 	return "-"
 }
