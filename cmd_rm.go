@@ -8,11 +8,20 @@ import (
 )
 
 var commandRemove = cli.Command{
-	Name:  "rm",
-	Usage: "remove a TODO item",
+	Name:      "rm",
+	Usage:     "remove a TODO item",
+	UsageText: "todo rm -i ID",
+	Flags: []cli.Flag{
+
+		cli.StringFlag{
+			Name:  "id, i",
+			Usage: "ID of the TODO that you want to remove",
+		},
+	},
+	Category: "TODOs",
 
 	Action: func(c *cli.Context) error {
-		arg := c.Args().Get(0)
+		arg := c.String("id")
 		id, err := strconv.Atoi(arg)
 		if err != nil {
 			return cli.NewExitError("Please provide the TODO's ID as the argument", 4)
@@ -26,5 +35,4 @@ var commandRemove = cli.Command{
 		fmt.Printf("TODO #%d removed\n", id)
 		return nil
 	},
-	Category: "TODOs",
 }

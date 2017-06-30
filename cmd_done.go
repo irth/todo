@@ -8,9 +8,10 @@ import (
 )
 
 var commandDone = cli.Command{
-	Name:    "done",
-	Aliases: []string{"d"},
-	Usage:   "mark a TODO item as done",
+	Name:      "done",
+	Aliases:   []string{"d"},
+	Usage:     "mark a TODO item as done",
+	UsageText: "todo done -i ID [--undo]",
 	Flags: []cli.Flag{
 		cli.BoolFlag{
 			Name:  "undo",
@@ -21,6 +22,8 @@ var commandDone = cli.Command{
 			Usage: "ID of the TODO that you want to mark as done",
 		},
 	},
+	Category: "TODOs",
+
 	Action: func(c *cli.Context) error {
 		arg := c.String("id")
 		id, err := strconv.Atoi(arg)
@@ -41,5 +44,4 @@ var commandDone = cli.Command{
 		fmt.Printf("TODO #%d (%s) marked as %s.\n", id, todo.Text, msg)
 		return nil
 	},
-	Category: "TODOs",
 }

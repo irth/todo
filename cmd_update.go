@@ -9,9 +9,10 @@ import (
 )
 
 var commandUpdate = cli.Command{
-	Name:    "update",
-	Aliases: []string{"u"},
-	Usage:   "update a TODO item",
+	Name:      "update",
+	Aliases:   []string{"u"},
+	Usage:     "update a TODO item",
+	UsageText: "todo update -i ID [--category,-c CATEGORY] [todo description...]",
 	Flags: []cli.Flag{
 		cli.StringFlag{
 			Name: "category, c",
@@ -21,6 +22,8 @@ var commandUpdate = cli.Command{
 			Usage: "ID of the TODO that you want to update",
 		},
 	},
+	Category: "TODOs",
+
 	Action: func(c *cli.Context) error {
 		arg := c.String("id")
 		id, err := strconv.Atoi(arg)
@@ -49,5 +52,4 @@ var commandUpdate = cli.Command{
 
 		return nil
 	},
-	Category: "TODOs",
 }

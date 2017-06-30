@@ -8,9 +8,10 @@ import (
 )
 
 var commandAdd = cli.Command{
-	Name:    "add",
-	Aliases: []string{"a"},
-	Usage:   "create a TODO item",
+	Name:      "add",
+	Aliases:   []string{"a"},
+	Usage:     "create a TODO item",
+	UsageText: "todo add todo_text...",
 	Flags: []cli.Flag{
 		cli.StringFlag{
 			Name:  "category, c",
@@ -18,6 +19,8 @@ var commandAdd = cli.Command{
 			Usage: "the category for the TODO",
 		},
 	},
+	Category: "TODOs",
+
 	Action: func(c *cli.Context) error {
 		task := strings.TrimSpace(strings.Join(c.Args(), " "))
 		if len(task) == 0 {
@@ -31,5 +34,4 @@ var commandAdd = cli.Command{
 		fmt.Println("added task", task)
 		return nil
 	},
-	Category: "TODOs",
 }

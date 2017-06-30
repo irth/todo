@@ -34,9 +34,10 @@ func getPrintableTodo(todo Todo) []string {
 }
 
 var commandList = cli.Command{
-	Name:    "list",
-	Aliases: []string{"l"},
-	Usage:   "list TODO items",
+	Name:      "list",
+	Aliases:   []string{"l", "ls"},
+	Usage:     "list TODO items",
+	UsageText: "todo list [-a,--all] [-c,--category CATEGORY]",
 	Flags: []cli.Flag{
 		cli.BoolFlag{
 			Name:  "all, a",
@@ -47,6 +48,8 @@ var commandList = cli.Command{
 			Usage: "if specified, only todos from this category will be shown",
 		},
 	},
+	Category: "TODOs",
+
 	Action: func(c *cli.Context) error {
 		var category *string
 		if c.IsSet("category") {
@@ -63,5 +66,4 @@ var commandList = cli.Command{
 		table.Render()
 		return nil
 	},
-	Category: "TODOs",
 }

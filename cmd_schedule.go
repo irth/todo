@@ -22,7 +22,9 @@ var commandSchedule = cli.Command{
 			Usage: "ID of the TODO that you want to schedule",
 		},
 	},
-	ArgsUsage: "due_date...",
+	UsageText: "todo schedule -i ID [due_date...]",
+	Category:  "TODOs",
+
 	Action: func(c *cli.Context) error {
 		id, err := strconv.Atoi(c.String("id"))
 		if err != nil {
@@ -64,5 +66,4 @@ var commandSchedule = cli.Command{
 		fmt.Printf("Scheduled TODO #%d (%s) for %s\n", id, todo.Text, t.String())
 		return nil
 	},
-	Category: "TODOs",
 }
