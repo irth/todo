@@ -37,6 +37,11 @@ func (d *DB) addTodo(todo Todo) {
 	}
 }
 
+func (d *DB) rmTodo(id int) error {
+	_, err := d.database.Exec("DELETE FROM todos WHERE id = ?", id)
+	return err
+}
+
 func (d *DB) getTodos(all bool, category *string) []Todo {
 	todos := []Todo{}
 

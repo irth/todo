@@ -14,6 +14,7 @@ func main() {
 	app.Usage = "a simple CLI TODO manager"
 	app.Commands = []cli.Command{
 		commandAdd,
+		commandRemove,
 		commandDone,
 		commandList,
 		commandSchedule,
