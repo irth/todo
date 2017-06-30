@@ -16,14 +16,20 @@ var commandDeadline = cli.Command{
 	 Supports formats supported by https://github.com/bcampbell/fuzzytime.
 	 Pass a hyphen (-) instead of a date to remove a deadline.
 	 Pass just the ID to show the current deadline.`,
-	ArgsUsage: "todoID deadline_date...",
+	ArgsUsage: "deadline_date...",
+	Flags: []cli.Flag{
+		cli.StringFlag{
+			Name:  "id, i",
+			Usage: "ID of the TODO that you want to update",
+		},
+	},
 	Action: func(c *cli.Context) error {
-		id, err := strconv.Atoi(c.Args().Get(0))
+		id, err := strconv.Atoi(c.String("id"))
 		if err != nil {
-			return cli.NewExitError("Please provide the TODO's ID as the argument", 4)
+			return cli.NewExitError("Please provide the TODO's ID", 4)
 		}
 
-		text := strings.TrimSpace(strings.Join(c.Args().Tail(), " "))
+		text := strings.TrimSpace(strings.Join(c.Args(), " "))
 		if text == "-" {
 			todo, err := db.setDeadline(id, nil)
 			if err != nil {

@@ -16,12 +16,16 @@ var commandDone = cli.Command{
 			Name:  "undo",
 			Usage: "mark as *not* done",
 		},
+		cli.StringFlag{
+			Name:  "id, i",
+			Usage: "ID of the TODO that you want to mark as done",
+		},
 	},
 	Action: func(c *cli.Context) error {
-		arg := c.Args().Get(0)
+		arg := c.String("id")
 		id, err := strconv.Atoi(arg)
 		if err != nil {
-			return cli.NewExitError("Please provide the TODO's ID as the argument", 4)
+			return cli.NewExitError("Please provide the TODO's ID", 4)
 		}
 		todo, err := db.setDone(id, !c.Bool("undo"))
 

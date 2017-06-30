@@ -15,6 +15,7 @@ func main() {
 	app.Commands = []cli.Command{
 		commandAdd,
 		commandRemove,
+		commandUpdate,
 		commandDone,
 		commandList,
 		commandSchedule,
