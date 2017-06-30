@@ -64,7 +64,7 @@ func (d *DB) getTodos(all bool, category *string) []Todo {
 	return todos
 }
 
-func (d *DB) markTodoAsDone(id int, done bool) (*Todo, error) {
+func (d *DB) setDone(id int, done bool) (*Todo, error) {
 	todo := Todo{}
 	err := d.database.Get(&todo, "SELECT * FROM todos WHERE id = ?", id)
 	if err != nil {
@@ -74,12 +74,22 @@ func (d *DB) markTodoAsDone(id int, done bool) (*Todo, error) {
 	return &todo, err
 }
 
-func (d *DB) setDate(id int, time time.Time) (*Todo, error) {
+func (d *DB) setDate(id int, time *time.Time) (*Todo, error) {
 	todo := Todo{}
 	err := d.database.Get(&todo, "SELECT * FROM todos WHERE id = ?", id)
 	if err != nil {
 		return nil, err
 	}
 	_, err = d.database.Exec("UPDATE todos SET date = ? WHERE id = ?", time, todo.ID)
+	return &todo, err
+}
+
+func (d *DB) setDeadline(id int, time *time.Time) (*Todo, error) {
+	todo := Todo{}
+	err := d.database.Get(&todo, "SELECT * FROM todos WHERE id = ?", id)
+	if err != nil {
+		return nil, err
+	}
+	_, err = d.database.Exec("UPDATE todos SET deadline = ? WHERE id = ?", time, todo.ID)
 	return &todo, err
 }

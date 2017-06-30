@@ -23,7 +23,7 @@ var commandDone = cli.Command{
 		if err != nil {
 			return cli.NewExitError("Please provide the TODO's ID as the argument", 4)
 		}
-		todo, err := db.markTodoAsDone(id, !c.Bool("undo"))
+		todo, err := db.setDone(id, !c.Bool("undo"))
 
 		msg := "done"
 		if c.Bool("undo") {
