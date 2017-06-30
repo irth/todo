@@ -93,3 +93,12 @@ func (d *DB) setDeadline(id int, time *time.Time) (*Todo, error) {
 	_, err = d.database.Exec("UPDATE todos SET deadline = ? WHERE id = ?", time, todo.ID)
 	return &todo, err
 }
+
+func (d *DB) getTodo(id int) (*Todo, error) {
+	todo := Todo{}
+	err := d.database.Get(&todo, "SELECT * FROM todos WHERE id = ?", id)
+	if err != nil {
+		return nil, err
+	}
+	return &todo, nil
+}

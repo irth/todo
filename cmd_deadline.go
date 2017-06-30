@@ -9,9 +9,14 @@ import (
 )
 
 var commandDeadline = cli.Command{
-	Name:    "Deadline",
+	Name:    "deadline",
 	Aliases: []string{"de", "dead"},
-	Usage:   "schedule a TODO",
+	Usage:   "add a deadline to a TODO",
+	Description: `Adds or removes a deadline to the todo.
+	 Supports formats supported by https://github.com/bcampbell/fuzzytime.
+	 Pass a hyphen (-) instead of a date to remove a deadline.
+	 Pass just the ID to show the current deadline.`,
+	ArgsUsage: "todoID deadline_date...",
 	Action: func(c *cli.Context) error {
 		id, err := strconv.Atoi(c.Args().Get(0))
 		if err != nil {
@@ -25,6 +30,19 @@ var commandDeadline = cli.Command{
 				return cli.NewExitError(fmt.Sprint("Couldn't remove the deadline:", err), 7)
 			}
 			fmt.Printf("Removed the deadline from TODO #%d (%s).\n", id, todo.Text)
+			return nil
+		}
+
+		if len(text) == 0 {
+			todo, err := db.getTodo(id)
+			if err != nil {
+				return cli.NewExitError("Couldn't find the TODO.", 8)
+			}
+			if todo.Deadline == nil {
+				fmt.Printf("No deadline set for TODO #%d (%s)\n", id, todo.Text)
+				return nil
+			}
+			fmt.Println(todo.Deadline.Format("2006-01-02 15:04"))
 			return nil
 		}
 
